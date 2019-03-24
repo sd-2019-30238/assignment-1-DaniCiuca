@@ -99,4 +99,76 @@ public class DAOBook {
         }
         return books;
     }
+
+    void filterByTitle(String title)
+    {
+        Connection dbConnection = ConnectionFactory.getConnection();
+        try{
+            Statement stmt = dbConnection.createStatement();
+            ResultSet rs;
+            rs = stmt.executeQuery("SELECT * FROM books WHERE title LIKE '%"+title+"%'");
+            while ( rs.next() )
+            {
+                System.out.println(rs.getString(2)+" "+rs.getString(3)+" "
+                +rs.getString(4)+" "+rs.getDate(5));
+            }
+        }
+        catch (Exception e){
+            System.out.println("No results found");
+        }
+    }
+
+    void filterByAuthor(String author)
+    {
+        Connection dbConnection = ConnectionFactory.getConnection();
+        try{
+            Statement stmt = dbConnection.createStatement();
+            ResultSet rs;
+            rs = stmt.executeQuery("SELECT * FROM books WHERE author LIKE '%"+author+"%'");
+            while ( rs.next() )
+            {
+                System.out.println(rs.getString(2)+" "+rs.getString(3)+" "
+                        +rs.getString(4)+" "+rs.getDate(5));
+            }
+        }
+        catch (Exception e){
+            System.out.println("No results found");
+        }
+    }
+
+    void filterByGenre(String genre)
+    {
+        Connection dbConnection = ConnectionFactory.getConnection();
+        try{
+            Statement stmt = dbConnection.createStatement();
+            ResultSet rs;
+            rs = stmt.executeQuery("SELECT * FROM books WHERE genre LIKE '%"+genre+"%'");
+            while ( rs.next() )
+            {
+                System.out.println(rs.getString(2)+" "+rs.getString(3)+" "
+                        +rs.getString(4)+" "+rs.getDate(5));
+            }
+        }
+        catch (Exception e){
+            System.out.println("No results found");
+        }
+    }
+
+    void filterByReleaseDate(String date)
+    {
+        Connection dbConnection = ConnectionFactory.getConnection();
+        try{
+            Statement stmt = dbConnection.createStatement();
+            ResultSet rs;
+            rs = stmt.executeQuery("SELECT * FROM books WHERE release_date = '"+date+"'");
+            while ( rs.next() )
+            {
+                System.out.println(rs.getString(2)+" "+rs.getString(3)+" "
+                        +rs.getString(4)+" "+rs.getDate(5));
+            }
+        }
+        catch (Exception e){
+            System.out.println("No results found");
+        }
+    }
 }

@@ -1,13 +1,11 @@
-public class User {
+public class Staff {
     private String username;
     private String password;
-    private PaymentMethod paymentMethod;
 
-
-    public User(String username, String password, String paymentMethod) {
+    public Staff(String username, String password)
+    {
         this.username = username;
         this.password = password;
-        this.paymentMethod = new PaymentMethod(paymentMethod);
     }
 
     public String getUsername() {
@@ -24,13 +22,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public PaymentMethod getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
     }
 }

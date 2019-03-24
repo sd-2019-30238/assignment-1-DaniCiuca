@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Book {
     private int id;
@@ -6,12 +8,16 @@ public class Book {
     private String author;
     private String genre;
     private Date releaseDate;
+    private int available;
+    private List<User> waitingList;
 
     public Book(String title, String author, String genre, Date releaseDate) {
         this.title = title;
         this.author = author;
         this.genre = genre;
         this.releaseDate = releaseDate;
+        this.available = 1;
+        this.waitingList = new ArrayList<User>();
     }
 
     public int getId() {
@@ -52,5 +58,21 @@ public class Book {
 
     public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public int getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(int available) {
+        this.available = available;
+    }
+
+    public List<User> getWaitingList() {
+        return waitingList;
+    }
+
+    public void setWaitingList(List<User> waitingList) {
+        this.waitingList = waitingList;
     }
 }
