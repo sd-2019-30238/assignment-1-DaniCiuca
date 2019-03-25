@@ -6,6 +6,7 @@ public class Controller {
     private DAOStaff daoStaff;
     private boolean exit = false;
     private boolean exitStaff = false;
+    private boolean exitUser = false;
 
     private Scanner scanner = new Scanner(System.in);
 
@@ -18,7 +19,7 @@ public class Controller {
     }
 
     public void run(){
-        while(exit == false) {
+        while(!exit) {
             System.out.println("Enter a command: ");
             String command = scanner.next().trim();
             String username;
@@ -31,7 +32,11 @@ public class Controller {
                     System.out.print("Password: ");
                     password = scanner.next().trim();
                     if (daoUser.searchUser(username, password))
+                    {
                         System.out.println("User connected!!");
+                        exit = true;
+                        userConnected(daoUser.returnUser(username,password));
+                    }
                     else
                         System.out.println("User not find!!");
                     break;
@@ -81,6 +86,35 @@ public class Controller {
                     break;
                 case "exit":
                     exitStaff = true;
+                    exit = false;
+                    run();
+                    break;
+                default:
+                    System.out.println("Unknown command");
+                    break;
+            }
+        }
+    }
+
+    public void userConnected(User user)
+    {
+        while (!exitUser) {
+            System.out.println("<"+user.getUsername()+"> Enter a command: ");
+            String command = scanner.next().trim();
+            String title;
+            switch (command) {
+                case "borrow":
+                    System.out.print("Book title: ");
+                    title = scanner.next().trim();
+                    daoUser.borrowBook(title,user.getUsername());
+                    break;
+                case "return":
+                    System.out.print("Book title: ");
+                    title = scanner.next().trim();
+                    daoUser.returnBook(title,user.getUsername());
+                    break;
+                case "exit":
+                    exitUser = true;
                     exit = false;
                     run();
                     break;
