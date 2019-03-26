@@ -1,3 +1,5 @@
+package bussinessLayer.Model;
+
 public class PaymentMethod {
     private String type;
     private int cost;

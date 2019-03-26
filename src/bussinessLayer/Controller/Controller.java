@@ -1,3 +1,12 @@
+package bussinessLayer.Controller;
+
+import bussinessLayer.Model.User;
+import databaseLayer.Connection.ConnectionFactory;
+import databaseLayer.DAO.DAOBook;
+import databaseLayer.DAO.DAOStaff;
+import databaseLayer.DAO.DAOUser;
+import presentationLayer.GUI.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Scanner;
@@ -54,14 +63,14 @@ public class Controller {
             String password = loginForm.getPasswordField1();
             if (daoUser.searchUser(username, password))
             {
-                System.out.println("User connected!!");
+                System.out.println("bussinessLayer.Model.User connected!!");
                 loginForm.setVisible(false);
                 user = daoUser.returnUser(username,password);
                 userMenuForm.setVisible(true);
                 userMenuForm.setUsername(username);
             }
             else
-                System.out.println("User not find!!");
+                System.out.println("bussinessLayer.Model.User not find!!");
         }
     }
 
@@ -79,7 +88,7 @@ public class Controller {
         public void actionPerformed(ActionEvent e)
         {
             daoStaff.acceptUser(staffForm.getTextField1());
-            System.out.println("User: "+staffForm.getTextField1()+" was accepted.");
+            System.out.println("bussinessLayer.Model.User: "+staffForm.getTextField1()+" was accepted.");
         }
     }
 
@@ -138,11 +147,11 @@ public class Controller {
             String username = staffLoginForm.getTextField1();
             String password = staffLoginForm.getPasswordField1();
             if (daoStaff.searchUser(username, password)) {
-                System.out.println("Staff connected!!");
+                System.out.println("bussinessLayer.Model.Staff connected!!");
                 staffLoginForm.setVisible(false);
                 staffForm.setVisible(true);
             } else
-                System.out.println("Staff not find!!");
+                System.out.println("bussinessLayer.Model.Staff not find!!");
         }
     }
 

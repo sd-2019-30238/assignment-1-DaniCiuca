@@ -1,3 +1,8 @@
+package databaseLayer.DAO;
+
+import bussinessLayer.Model.User;
+import databaseLayer.Connection.ConnectionFactory;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -92,7 +97,7 @@ public class DAOUser {
             int available = rs.getInt("available");
             if(available == 1)
             {
-                System.out.println("Book Available");
+                System.out.println("bussinessLayer.Model.Book Available");
                 PreparedStatement st = dbConnection.prepareStatement("UPDATE books SET available = 0 WHERE id = ?");
                 PreparedStatement st2 = dbConnection.prepareStatement("INSERT INTO borrow_list(bookID,username) VALUES (?,?)");
                 try
@@ -112,7 +117,7 @@ public class DAOUser {
             }
             else
             {
-                System.out.println("Book Unavailable");
+                System.out.println("bussinessLayer.Model.Book Unavailable");
                 PreparedStatement st = dbConnection.prepareStatement("INSERT INTO waiting_list (BookID,username) VALUES (?,?)");
                 try{
                     st.setObject(1, id );

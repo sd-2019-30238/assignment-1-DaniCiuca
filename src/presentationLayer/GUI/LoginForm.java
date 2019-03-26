@@ -1,22 +1,24 @@
+package presentationLayer.GUI;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public class RegisterForm extends JFrame{
-    private JPanel registerPanel;
-    private JPasswordField passwordField1;
+public class LoginForm extends JFrame{
+    private JLabel usernameField;
+    private JLabel passwordField;
     private JTextField textField1;
+    private JPasswordField passwordField1;
+    private JPanel loginPanel;
+    private JButton loginButton;
     private JButton registerButton;
-    private JLabel usernameLabel;
-    private JLabel passwordLabel;
-    private JComboBox comboBox1;
-    private JLabel paymentPlanLabel;
-    private JButton backToLoginButton;
+    private JButton staffLoginButton;
+    private JLabel newAccountLabel;
 
-    public RegisterForm()
+    public LoginForm()
     {
-        add(registerPanel);
+        add(loginPanel);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setTitle("Register");
+        setTitle("LOGIN");
         setSize(400,400);
     }
 
@@ -36,8 +38,9 @@ public class RegisterForm extends JFrame{
         this.passwordField1.setText(passwordField1);
     }
 
-    public String getComboBox1() {
-        return comboBox1.getSelectedItem().toString();
+    public void LoginListener(ActionListener listenForLoginButton)
+    {
+        loginButton.addActionListener(listenForLoginButton);
     }
 
     public void RegisterListener(ActionListener listenForRegisterButton)
@@ -45,8 +48,8 @@ public class RegisterForm extends JFrame{
         registerButton.addActionListener(listenForRegisterButton);
     }
 
-    public void BackListener(ActionListener listenForBackButton)
+    public void LoginStaffListener(ActionListener listenForLoginStaffButton)
     {
-        backToLoginButton.addActionListener(listenForBackButton);
+        staffLoginButton.addActionListener(listenForLoginStaffButton);
     }
 }

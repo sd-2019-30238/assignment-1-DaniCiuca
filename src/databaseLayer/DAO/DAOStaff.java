@@ -1,3 +1,7 @@
+package databaseLayer.DAO;
+
+import databaseLayer.Connection.ConnectionFactory;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
