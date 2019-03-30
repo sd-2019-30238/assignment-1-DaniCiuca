@@ -65,9 +65,13 @@ public class Controller {
                 user = daoUser.returnUser(username,password);
                 userMenuForm.setVisible(true);
                 userMenuForm.setUsername(username);
-                RecommendationFactory recommendationFactory = new RecommendationFactory();
-                Recommendation recommendation = recommendationFactory.listRecommendation(daoUser.preferedGenre(username));
-                userMenuForm.setTextArea1("Recommendations:\n\n"+recommendation.getRecommendation());
+                if(daoUser.preferedGenre(username).equalsIgnoreCase(""))
+                    userMenuForm.setTextArea1("Nu aveti nici o recomandare\n");
+                else {
+                    RecommendationFactory recommendationFactory = new RecommendationFactory();
+                    Recommendation recommendation = recommendationFactory.listRecommendation(daoUser.preferedGenre(username));
+                    userMenuForm.setTextArea1("Recommendations:\n\n" + recommendation.getRecommendation());
+                }
             }
             else
                 System.out.println("User not find!!");
