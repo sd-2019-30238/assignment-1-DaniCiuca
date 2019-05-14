@@ -1,13 +1,19 @@
-package main.bussinessLayer.Model;
+package a2.demo.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity(name = "staff")
 public class Staff {
+    @Id
+    @Column(name = "username")
     private String username;
+    @Column(name = "password")
     private String password;
 
-    public Staff(String username, String password)
+    public Staff()
     {
-        this.username = username;
-        this.password = password;
     }
 
     public String getUsername() {

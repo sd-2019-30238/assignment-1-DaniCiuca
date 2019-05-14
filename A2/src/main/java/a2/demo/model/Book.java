@@ -1,25 +1,30 @@
-package main.bussinessLayer.Model;
+package a2.demo.model;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity(name = "books")
 public class Book {
+    @Id
+    @Column(name = "id")
     private int id;
+    @Column(name = "title")
     private String title;
+    @Column(name = "author")
     private String author;
+    @Column(name = "genre")
     private String genre;
+    @Column(name = "releaseDate")
     private Date releaseDate;
+    @Column(name = "available")
     private int available;
-    private List<User> waitingList;
 
-    public Book(String title, String author, String genre, Date releaseDate) {
-        this.title = title;
-        this.author = author;
-        this.genre = genre;
-        this.releaseDate = releaseDate;
-        this.available = 1;
-        this.waitingList = new ArrayList<User>();
+    public Book() {
+
     }
 
     public int getId() {
@@ -70,11 +75,4 @@ public class Book {
         this.available = available;
     }
 
-    public List<User> getWaitingList() {
-        return waitingList;
-    }
-
-    public void setWaitingList(List<User> waitingList) {
-        this.waitingList = waitingList;
-    }
 }
