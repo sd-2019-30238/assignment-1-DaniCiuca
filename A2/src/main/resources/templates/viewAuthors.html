@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<br>
+<br>
+<form action="#" th:action="@{/rest/staff/home/authors}" th:object="${authors}" method="post">
+    <table align="center">
+		<tr>
+            <td>Author:</td>
+            <td><input type = "text" name="author1" placeholder="Author"></td>
+        </tr>
+		<tr></tr>
+		<tr></tr>
+        <tr th:each="author : ${authors}">
+            <td><span th:text="${author.title}"> Title </span></td>
+			<td><span th:text="${author.author}"> Author </span></td>
+			<td><span th:text="${author.genre}"> Genre </span></td>
+			<td><span th:text="${author.releaseDate}"> Release Date </span></td>
+        </tr>
+		<tr align="center">
+            <td></td>
+            <td><input type="submit" value="Filter"></td>
+        </tr>
+    </table>
+</body>
+</html>
