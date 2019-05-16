@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<br>
+<br>
+<form action="#" th:action="@{/rest/users/home/borrow/{username}}" th:object="${user}" method="post">
+    <table align="center">
+		<tr>
+            <td>Book:</td>
+            <td><input type = "text" name="title" placeholder="Title"></td>
+        </tr>
+		<tr align="center">
+            <td></td>
+            <td><input type="submit" value="Borrow"></td>
+        </tr>
+		</form>
+		<form action="#" th:action="@{/rest/users/home/return/caca}" method="post">
+		<tr align="center">
+            <td></td>
+            <td><input type="submit" value="Return"></td>
+        </tr>
+    </table>
+</body>
+</html>

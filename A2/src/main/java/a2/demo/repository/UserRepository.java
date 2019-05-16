@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface UserRepository extends JpaRepository<User,String> {
-    @Modifying
+    /*@Modifying
     @Transactional
-    @Query("delete from users u where u.username = ?1")
-    void deleteByUsername(String username);
+    @Query("INSERT INTO borrow_list(bookID,username) VALUES (?1,?2)")
+    void borrowBook(int bookID, String username);*/
 }
