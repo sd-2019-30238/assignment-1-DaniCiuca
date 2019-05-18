@@ -4,6 +4,7 @@ import a2.demo.model.Book;
 import a2.demo.model.Borrow;
 import a2.demo.model.User;
 import a2.demo.model.Waiting;
+import a2.demo.obs.NotifyUser;
 import a2.demo.repository.BookRepository;
 import a2.demo.repository.BorrowRepository;
 import a2.demo.repository.UserRepository;
@@ -12,9 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.xml.bind.Marshaller;
-import java.net.URLDecoder;
-import java.net.http.WebSocket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
@@ -23,7 +21,7 @@ import java.util.Observer;
 @RequestMapping(value = "/rest/users")
 public class UserController {
 
-    private List<Observer> observers = new ArrayList<Observer>();
+    private List observers = new ArrayList();
 
     @Autowired
     UserRepository usersRepository;
@@ -55,7 +53,7 @@ public class UserController {
     {
         ModelAndView modelAndView = new ModelAndView("loginUser");
         if(usersRepository.existsById(user.getUsername())) {
-            if(usersRepository.findById(user.getUsername()).get().getPassword().equals(user.getPassword()))
+            if(usersRepository.findById(user.getUsername()).get().getPassword().equals(user.getPassword()) && usersRepository.findById(user.getUsername()).get().getAccepted()==true)
                 return new ModelAndView("redirect:/rest/users/home/"+user.getUsername());
         }
         return modelAndView;
@@ -86,6 +84,8 @@ public class UserController {
         }
         else
         {
+            //Attach Observer
+            book.attach(new NotifyUser());
             Waiting w = new Waiting();
             w.setBookID(book.getId());
             w.setUsername(username);
@@ -107,7 +107,10 @@ public class UserController {
                 for (Waiting w : waiting) {
                     if (w.getBookID() == book.getId()) {
 
-
+                        //Notify next user in waiting list and detach him
+                        book.notifyObservers();
+                        book.detach((a2.demo.obs.Observer) observers.get(0));
+                        observers.remove(0);
 
                         waitingRepository.deleteById(w.getId());
                         Borrow b = new Borrow();
@@ -138,7 +141,7 @@ public class UserController {
     public ModelAndView registrationProcess(User user)
     {
         usersRepository.save(user);
-        return new ModelAndView("loginPage");
+        return new ModelAndView("loginUser");
     }
 
     @PutMapping

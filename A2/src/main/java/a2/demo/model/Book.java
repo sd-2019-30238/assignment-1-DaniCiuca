@@ -1,5 +1,7 @@
 package a2.demo.model;
 
+import a2.demo.obs.Subject;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity(name = "books")
-public class Book {
+public class Book extends Subject {
     @Id
     @Column(name = "id")
     private int id;
@@ -73,6 +75,7 @@ public class Book {
 
     public void setAvailable(int available) {
         this.available = available;
+        this.notifyObservers();
     }
 
 }
