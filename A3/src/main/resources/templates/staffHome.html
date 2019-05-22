@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<br>
+<br>
+<form action="#" th:action="@{/rest/staff/home}" method="post">
+    <table align="center">
+        <tr>
+            <td>Username:</td>
+            <td><input type = "text" name="username" placeholder="Username"></td>
+        </tr>
+        <tr align="center">
+            <td></td>
+            <td><input type="submit" value="Accept User"></td>
+        </tr>
+		<tr></tr>
+		<tr></tr>
+		</form>
+		<form action="#" th:action="@{/rest/staff/home/titles}" method="get">
+		<tr align="center">
+            <td></td>
+            <td><input type="submit" value="Filter By Title"></td>
+        </tr>
+		</form>
+		<form action="#" th:action="@{/rest/staff/home/authors}" method="get">
+		<tr align="center">
+            <td></td>
+            <td><input type="submit" value="Filter By Author"></td>
+        </tr>
+		</form>
+		<form action="#" th:action="@{/rest/staff/home/genres}" method="get">
+		<tr align="center">
+            <td></td>
+            <td><input type="submit" value="Filter By Genre"></td>
+        </tr>
+		</form>
+    </table>
+</body>
+</html>
