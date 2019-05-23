@@ -4,7 +4,6 @@ import a2.demo.model.Book;
 import a2.demo.model.Borrow;
 import a2.demo.model.User;
 import a2.demo.model.Waiting;
-import a2.demo.obs.NotifyUser;
 import a2.demo.repository.BookRepository;
 import a2.demo.repository.BorrowRepository;
 import a2.demo.repository.UserRepository;
@@ -13,15 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
 
 @RestController
 @RequestMapping(value = "/rest/users")
 public class UserController {
-
-    private List observers = new ArrayList();
 
     @Autowired
     UserRepository usersRepository;
@@ -84,8 +80,6 @@ public class UserController {
         }
         else
         {
-            //Attach Observer
-            book.attach(new NotifyUser());
             Waiting w = new Waiting();
             w.setBookID(book.getId());
             w.setUsername(username);
@@ -95,7 +89,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/home/return/{username}/{id}")
-    public ModelAndView returnBook(@PathVariable String username, @PathVariable int id, Observer observer)
+    public ModelAndView returnBook(@PathVariable String username, @PathVariable int id)
     {
         Book book = bookRepository.findById(id).get();
         List<Waiting> waiting = waitingRepository.findAll();
@@ -106,12 +100,6 @@ public class UserController {
                 int ok = 0;
                 for (Waiting w : waiting) {
                     if (w.getBookID() == book.getId()) {
-
-                        //Notify next user in waiting list and detach him
-                        book.notifyObservers();
-                        book.detach((a2.demo.obs.Observer) observers.get(0));
-                        observers.remove(0);
-
                         waitingRepository.deleteById(w.getId());
                         Borrow b = new Borrow();
                         b.setBookID(book.getId());
