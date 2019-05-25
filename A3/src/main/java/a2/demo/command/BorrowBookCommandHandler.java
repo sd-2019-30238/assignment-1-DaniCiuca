@@ -3,9 +3,9 @@ package a2.demo.command;
 import a2.demo.model.Book;
 import a2.demo.model.Borrow;
 import a2.demo.model.Waiting;
-import a2.demo.repository.BookRepository;
-import a2.demo.repository.BorrowRepository;
-import a2.demo.repository.WaitingRepository;
+import a2.demo.repository.BookWriteRepository;
+import a2.demo.repository.BorrowWriteRepository;
+import a2.demo.repository.WaitingWriteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -13,13 +13,13 @@ import java.util.List;
 
 public class BorrowBookCommandHandler implements ICommandHandler {
     @Autowired
-    BookRepository bookRepository;
+    BookWriteRepository bookRepository;
 
     @Autowired
-    BorrowRepository borrowRepository;
+    BorrowWriteRepository borrowRepository;
 
     @Autowired
-    WaitingRepository waitingRepository;
+    WaitingWriteRepository waitingRepository;
 
     String username;
 

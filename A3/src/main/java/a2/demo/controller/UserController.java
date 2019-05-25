@@ -1,13 +1,18 @@
 package a2.demo.controller;
 
+import a2.demo.decorator.OwnershipBook;
 import a2.demo.model.Book;
 import a2.demo.model.Borrow;
 import a2.demo.model.User;
 import a2.demo.model.Waiting;
-import a2.demo.repository.BookRepository;
-import a2.demo.repository.BorrowRepository;
-import a2.demo.repository.UserRepository;
-import a2.demo.repository.WaitingRepository;
+import a2.demo.repository.BookReadRepository;
+import a2.demo.repository.BookWriteRepository;
+import a2.demo.repository.BorrowReadRepository;
+import a2.demo.repository.BorrowWriteRepository;
+import a2.demo.repository.UserReadRepository;
+import a2.demo.repository.UserWriteRepository;
+import a2.demo.repository.WaitingReadRepository;
+import a2.demo.repository.WaitingWriteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,20 +25,32 @@ import java.util.Observer;
 public class UserController {
 
     @Autowired
-    UserRepository usersRepository;
+    UserWriteRepository usersRepository;
 
     @Autowired
-    BookRepository bookRepository;
+    BookWriteRepository bookRepository;
 
     @Autowired
-    BorrowRepository borrowRepository;
+    BorrowWriteRepository borrowRepository;
 
     @Autowired
-    WaitingRepository waitingRepository;
+    WaitingWriteRepository waitingRepository;
+
+    @Autowired
+    UserReadRepository usersRepository1;
+
+    @Autowired
+    BookReadRepository bookRepository1;
+
+    @Autowired
+    BorrowReadRepository borrowRepository1;
+
+    @Autowired
+    WaitingReadRepository waitingRepository1;
 
     @GetMapping
     public List<User> getAll() {
-        return usersRepository.findAll();
+        return usersRepository1.findAll();
     }
 
     @GetMapping("/login")
@@ -48,8 +65,8 @@ public class UserController {
     public ModelAndView verifyUser(User user)
     {
         ModelAndView modelAndView = new ModelAndView("loginUser");
-        if(usersRepository.existsById(user.getUsername())) {
-            if(usersRepository.findById(user.getUsername()).get().getPassword().equals(user.getPassword()) && usersRepository.findById(user.getUsername()).get().getAccepted()==true)
+        if(usersRepository1.existsById(user.getUsername())) {
+            if(usersRepository1.findById(user.getUsername()).get().getPassword().equals(user.getPassword()) && usersRepository1.findById(user.getUsername()).get().getAccepted()==true)
                 return new ModelAndView("redirect:/rest/users/home/"+user.getUsername());
         }
         return modelAndView;
@@ -68,10 +85,11 @@ public class UserController {
     @PostMapping(value = "/home/borrow/{username}/{id}")
     public ModelAndView borrowBook(@PathVariable String username, @PathVariable int id)
     {
-        Book book = bookRepository.findById(id).get();
-        if(book.getAvailable()==1)
+        Book book = bookRepository1.findById(id).get();
+        OwnershipBook ownershipBook = new OwnershipBook(book);
+        if(ownershipBook.getAvailability()==1)
         {
-            book.setAvailable(0);
+            ownershipBook.changeAvailability();
             bookRepository.save(book);
             Borrow b =new Borrow();
             b.setBookID(book.getId());
@@ -91,9 +109,9 @@ public class UserController {
     @PostMapping(value = "/home/return/{username}/{id}")
     public ModelAndView returnBook(@PathVariable String username, @PathVariable int id)
     {
-        Book book = bookRepository.findById(id).get();
-        List<Waiting> waiting = waitingRepository.findAll();
-        List<Borrow> borrows = borrowRepository.findAll();
+        Book book = bookRepository1.findById(id).get();
+        List<Waiting> waiting = waitingRepository1.findAll();
+        List<Borrow> borrows = borrowRepository1.findAll();
         for(Borrow a : borrows) {
             if (book.getId() == a.getBookID() && a.getUsername().equals(username)) {
                 bookRepository.deleteById(a.getId());
@@ -110,7 +128,8 @@ public class UserController {
                     }
                 }
                 if (ok == 0) {
-                    book.setAvailable(1);
+                    OwnershipBook ownershipBook = new OwnershipBook(book);
+                    ownershipBook.changeAvailability();
                     bookRepository.save(book);
                 }
             }

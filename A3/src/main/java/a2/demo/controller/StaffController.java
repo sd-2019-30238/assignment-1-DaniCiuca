@@ -3,9 +3,12 @@ package a2.demo.controller;
 import a2.demo.model.Book;
 import a2.demo.model.Staff;
 import a2.demo.model.User;
-import a2.demo.repository.BookRepository;
-import a2.demo.repository.StaffRepository;
-import a2.demo.repository.UserRepository;
+import a2.demo.repository.BookReadRepository;
+import a2.demo.repository.BookWriteRepository;
+import a2.demo.repository.StaffReadRepository;
+import a2.demo.repository.StaffWriteRepository;
+import a2.demo.repository.UserReadRepository;
+import a2.demo.repository.UserWriteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,13 +21,22 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/rest/staff")
 public class StaffController {
     @Autowired
-    StaffRepository staffRepository;
+    StaffWriteRepository staffRepository;
 
     @Autowired
-    UserRepository userRepository;
+    UserWriteRepository userRepository;
 
     @Autowired
-    BookRepository bookRepository;
+    BookWriteRepository bookRepository;
+
+    @Autowired
+    StaffReadRepository staffRepository1;
+
+    @Autowired
+    UserReadRepository userRepository1;
+
+    @Autowired
+    BookReadRepository bookRepository1;
 
     @GetMapping("/login")
     public ModelAndView displayLoginPage()
@@ -38,8 +50,8 @@ public class StaffController {
     public ModelAndView verifyStaff(Staff staff)
     {
         ModelAndView modelAndView = new ModelAndView("loginStaff");
-        if(staffRepository.existsById(staff.getUsername())) {
-            if(staffRepository.findById(staff.getUsername()).get().getPassword().equals(staff.getPassword()))
+        if(staffRepository1.existsById(staff.getUsername())) {
+            if(staffRepository1.findById(staff.getUsername()).get().getPassword().equals(staff.getPassword()))
                 return new ModelAndView("redirect:/rest/staff/home");
         }
         return modelAndView;
@@ -55,9 +67,9 @@ public class StaffController {
     @PostMapping("/home")
     public ModelAndView acceptUser(String username)
     {
-        if(userRepository.existsById(username))
+        if(userRepository1.existsById(username))
         {
-            User u = userRepository.findById(username).get();
+            User u = userRepository1.findById(username).get();
             u.setAccepted(true);
             userRepository.save(u);
         }
@@ -74,7 +86,7 @@ public class StaffController {
     @PostMapping("home/authors")
     public ModelAndView filterAuthors1(String author1)
     {
-        List<Book> books = bookRepository.findAll();
+        List<Book> books = bookRepository1.findAll();
         List<Book> books1= new ArrayList<Book>();
         for(Book b : books)
             if(b.getAuthor().toUpperCase().contains(author1.toUpperCase()))
@@ -93,7 +105,7 @@ public class StaffController {
     @PostMapping("home/titles")
     public ModelAndView filterTitles1(String title1)
     {
-        List<Book> books = bookRepository.findAll();
+        List<Book> books = bookRepository1.findAll();
         List<Book> books1= new ArrayList<Book>();
         for(Book b : books)
             if(b.getTitle().toUpperCase().contains(title1.toUpperCase()))
@@ -112,7 +124,7 @@ public class StaffController {
     @PostMapping("home/genres")
     public ModelAndView filterGenres1(String genre1)
     {
-        List<Book> books = bookRepository.findAll();
+        List<Book> books = bookRepository1.findAll();
         List<Book> books1= new ArrayList<Book>();
         for(Book b : books)
             if(b.getGenre().toUpperCase().contains(genre1.toUpperCase()))
@@ -130,7 +142,7 @@ public class StaffController {
     @PostMapping
     public List<Staff> persist(@RequestBody final Staff staff) {
         staffRepository.save(staff);
-        return staffRepository.findAll();
+        return staffRepository1.findAll();
     }
 
     /*@GetMapping(value = "/{username}")

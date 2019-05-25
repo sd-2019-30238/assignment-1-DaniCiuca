@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 
-class Mediator implements IMediator {
+public class Mediator implements IMediator {
     private List<ICommandHandler> handlers;
     private Map<String, ICommandHandler> commands;
 

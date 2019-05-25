@@ -1,7 +1,7 @@
 package a2.demo.command;
 
 import a2.demo.model.Book;
-import a2.demo.repository.BookRepository;
+import a2.demo.repository.BookReadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class FilterAuthorsCommandHandler implements ICommandHandler {
     @Autowired
-    BookRepository bookRepository;
+    BookReadRepository bookRepository;
 
 
     @Override

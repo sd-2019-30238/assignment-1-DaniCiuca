@@ -1,10 +1,17 @@
 package a2.demo;
 
+import a2.demo.command.ICommand;
+import a2.demo.command.ICommandHandler;
+import a2.demo.command.RegisterUserCommandHandler;
+import a2.demo.mediatorPck.Mediator;
 import a2.demo.model.Book;
 import a2.demo.model.User;
-import a2.demo.repository.BookRepository;
-import a2.demo.repository.StaffRepository;
-import a2.demo.repository.UserRepository;
+import a2.demo.repository.BookReadRepository;
+import a2.demo.repository.BookWriteRepository;
+import a2.demo.repository.StaffReadRepository;
+import a2.demo.repository.StaffWriteRepository;
+import a2.demo.repository.UserReadRepository;
+import a2.demo.repository.UserWriteRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +26,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DemoApplicationTests {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserWriteRepository userRepository;
 
 	@Autowired
-	private BookRepository bookRepository;
+	private BookWriteRepository bookRepository;
 
 	@Autowired
-	private StaffRepository staffRepository;
+	private StaffWriteRepository staffRepository;
 
 	@Test
 	public void addUser() {
@@ -39,6 +46,24 @@ public class DemoApplicationTests {
 
 		assertThat(user.getUsername()).isEqualTo(userFind.getUsername());
 	}
+
+	/*@Test
+	public void addUserCommand()
+	{
+		User event=new RegisterUser();
+		user.setUsername("test1");
+		user.setPassword("test1");
+		user.setPaymentMethod("Day");
+
+		ICommandHandler handler = new RegisterUserCommandHandler();
+		Mediator mediator = new Mediator();
+		mediator.addHandler(handler);
+		mediator.mediate(event);
+
+		User userFind = userRepository.findById("test1").get();
+
+		assertThat(user.getUsername()).isEqualTo(userFind.getUsername());
+	}*/
 
 	@Test
 	public void acceptUser()

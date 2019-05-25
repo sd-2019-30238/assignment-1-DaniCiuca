@@ -3,30 +3,37 @@ package a2.demo.command;
 import a2.demo.model.Book;
 import a2.demo.model.Borrow;
 import a2.demo.model.Waiting;
-import a2.demo.repository.BookRepository;
-import a2.demo.repository.BorrowRepository;
-import a2.demo.repository.WaitingRepository;
+import a2.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class ReturnBookCommandHandler implements ICommandHandler {
     @Autowired
-    BookRepository bookRepository;
+    BookWriteRepository bookRepository;
 
     @Autowired
-    BorrowRepository borrowRepository;
+    BorrowWriteRepository borrowRepository;
 
     @Autowired
-    WaitingRepository waitingRepository;
+    WaitingWriteRepository waitingRepository;
+
+    @Autowired
+    BookReadRepository bookRepository1;
+
+    @Autowired
+    BorrowReadRepository borrowRepository1;
+
+    @Autowired
+    WaitingReadRepository waitingRepository1;
 
     String username;
 
     @Override
     public void execute(ICommand command) {
         Book book = (Book) command;
-        List<Waiting> waiting = waitingRepository.findAll();
-        List<Borrow> borrows = borrowRepository.findAll();
+        List<Waiting> waiting = waitingRepository1.findAll();
+        List<Borrow> borrows = borrowRepository1.findAll();
         for (Borrow a : borrows) {
             if (book.getId() == a.getBookID() && a.getUsername().equals(username)) {
                 bookRepository.deleteById(a.getId());
